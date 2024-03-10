@@ -3,18 +3,12 @@ import { deleteTrip, getTrip, getTrips, postTrip, updateTrip } from "../controll
 
 const router = Router();
 
-
+router.post('/', postTrip)
 
 router.get('/', getTrips)
 router.get('/:id', getTrip)
 
-
-
-router.post('/', postTrip)
-
-
-router.put('/:id', updateTrip)
-
-router.delete("/:id", deleteTrip)
+router.put(':/id', updateTrip)
+router.delete(':/id', deleteTrip)
 
 export { router }

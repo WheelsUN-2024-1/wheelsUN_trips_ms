@@ -46,4 +46,20 @@ const showTrip = async (id:string) => {
     return responseTrips
 }
 
-export {insertTrip, showTrips, showTrip}
+const removeTrip = async (id:string) => {
+    const responseTrips = await TripModel.deleteOne({_id:id})
+    return responseTrips
+}
+
+
+const changeTrip = async(id:string, data:Trip) => {
+    const responseItem = await TripModel.findOneAndUpdate(
+        {_id:id},
+        data,
+        {
+            new: true
+        }
+        )
+}
+
+export {insertTrip, showTrips, showTrip, removeTrip, changeTrip}

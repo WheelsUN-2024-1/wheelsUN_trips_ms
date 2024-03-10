@@ -1,4 +1,4 @@
-import {insertTrip, showTrip, showTrips} from "../services/trip"
+import {insertTrip, showTrip, showTrips, removeTrip, changeTrip} from "../services/trip"
 import { handleHttp } from "../utils/error.handle"
 import { Response, Request, response } from "express"
 
@@ -34,18 +34,22 @@ const postTrip = async ({body}:  Request, res: Response) => {
 }
 
 
-const updateTrip = (req: Request, res: Response) => {
+const updateTrip = async ({params, body}: Request, res: Response) => {
     try {
-
+        const {id} = params;
+        const response = await changeTrip(id, body)
+        res.send(response)
     } catch(e) {
         handleHttp(res, 'ERROR_UPDATE_TRIP')
     }
 }
 
 
-const deleteTrip = async ({body}: Request, res: Response) => {
+const deleteTrip = async ({params}: Request, res: Response) => {
     try {
-        const response = insertTrip(body)
+        const {id} = params;
+        const response = await removeTrip(id)
+        res.send(response)
     } catch(e) {
         handleHttp(res, 'ERROR_DELETE_TRIP')
     }
