@@ -1,32 +1,35 @@
-import insertTrip from "../services/trip"
+import {insertTrip, showTrip, showTrips} from "../services/trip"
 import { handleHttp } from "../utils/error.handle"
-import { Response, Request } from "express"
+import { Response, Request, response } from "express"
 
-const getTrip = (req: Request, res: Response) => {
+const getTrip = async ({params}: Request, res: Response) => {
     try {
-
+        const {id} = params;
+        const response = await showTrip(id)
+        res.send(response)
     } catch(e) {
         handleHttp(res, 'ERROR_GET_TRIP')
     }
 }
 
 
-const getTrips = (req: Request, res: Response) => {
+const getTrips = async (req: Request, res: Response) => {
     try {
-
+        const responseTrip = await showTrips();
+        res.send(responseTrip);
     } catch(e) {
         handleHttp(res, 'ERROR_GET_TRIPS')
     }
 }
 
 
-const postTrip = ({body}:  Request, res: Response) => {
+const postTrip = async ({body}:  Request, res: Response) => {
     try {
-
-        res.send(body);
+        const responseTrip = await insertTrip(body);
+        res.send(responseTrip);
 
     } catch(e) {
-        handleHttp(res, 'ERROR_POST_TRIP')
+        handleHttp(res, 'ERROR_POST_TRIP',e)
     }
 }
 

@@ -3,6 +3,6 @@ export interface Trip {
     startingPoint: string
     endingPoint: string
     passengerIds: number[]
-    waypoints: any[]
+    waypoints: string[]
     route: any
 };

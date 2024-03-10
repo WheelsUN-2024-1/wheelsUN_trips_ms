@@ -1,9 +1,49 @@
 import { Trip } from "../interfaces/trip.interface"
 import TripModel from "../models/trip"
-const insertTrip = async (trip: Trip) => {
-    const responseInsert = await TripModel.create(trip)
-    return responseInsert
+import axios from 'axios';
+import "dotenv/config";
+
+
+
+async function fetchDirections(originPoint: string, destinationPoint:string) {
+    try {
+        const response = await axios.get(`${process.env.GOOGLE_API_URL}`, {
+            params: {
+                key: process.env.GOOGLE_API_KEY,
+                origin: originPoint,
+                destination: destinationPoint
+            }
+        });
+        console.log(response.data); // Aquí puedes manejar los datos obtenidos
+        return response.data
+    } catch (error) {
+        console.error('Error al obtener datos:', error);
+    }
 }
 
 
-export default insertTrip
+
+const insertTrip = async (trip: Trip) => {
+    // Creaciòn de la ruta apartir de los datos obtenidos
+
+    const route = await fetchDirections(trip.startingPoint, trip.endingPoint);
+
+    const newTrip = trip;
+    newTrip.route = route;
+    console.log("Ruta del viaje", newTrip.route)
+    const responseInsert = await TripModel.create(newTrip);
+    return responseInsert;
+}
+
+const showTrips = async () => {
+    const responseTrip = await TripModel.find({});
+    return responseTrip;
+}
+
+
+const showTrip = async (id:string) => {
+    const responseTrips = await TripModel.findOne({_id:id})
+    return responseTrips
+}
+
+export {insertTrip, showTrips, showTrip}
