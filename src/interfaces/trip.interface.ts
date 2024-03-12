@@ -5,4 +5,8 @@ export interface Trip {
     passengerIds: number[]
     waypoints: string[]
     route: any
+    price: number,
+    vehicleId: number
+    transactionIds: number[]
+    currentState: string
 };

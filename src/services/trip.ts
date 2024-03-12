@@ -5,13 +5,14 @@ import "dotenv/config";
 
 
 
-async function fetchDirections(originPoint: string, destinationPoint:string) {
+async function fetchDirections(originPoint: string, destinationPoint:string, waypoints?: string[]) {
     try {
         const response = await axios.get(`${process.env.GOOGLE_API_URL}`, {
             params: {
                 key: process.env.GOOGLE_API_KEY,
                 origin: originPoint,
-                destination: destinationPoint
+                destination: destinationPoint,
+                waypoints: waypoints
             }
         });
         console.log(response.data); // Aquí puedes manejar los datos obtenidos
@@ -47,19 +48,29 @@ const showTrip = async (id:string) => {
 }
 
 const removeTrip = async (id:string) => {
-    const responseTrips = await TripModel.deleteOne({_id:id})
+    const responseTrips = await TripModel.findOneAndDelete({_id:id})
     return responseTrips
 }
 
 
 const changeTrip = async(id:string, data:Trip) => {
-    const responseItem = await TripModel.findOneAndUpdate(
-        {_id:id},
-        data,
-        {
-            new: true
-        }
-        )
+    const responseTrip = await TripModel.updateOne({_id:id},{$set: data})
+    return responseTrip
 }
 
-export {insertTrip, showTrips, showTrip, removeTrip, changeTrip}
+
+const addPassgService = async(id:string, data:any) => {
+    console.log("pasa")
+    const trip: any  = await TripModel.findById({_id:id});
+    trip.route = await fetchDirections(trip.startingPoint, trip.endingPoint, [trip.waypoints, data.waypoint]);
+
+    const responseTrip = await TripModel.updateOne(
+        {_id:id},
+        { $push: { passengerIds: data.passengerId,
+         transactionIds: data.transactionId,
+         waypoints: data.waypoint}}
+        )
+    return responseTrip
+}
+
+export {insertTrip, showTrips, showTrip, removeTrip, changeTrip, addPassgService}

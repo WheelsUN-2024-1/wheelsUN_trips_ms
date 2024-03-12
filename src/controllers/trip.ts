@@ -1,4 +1,4 @@
-import {insertTrip, showTrip, showTrips, removeTrip, changeTrip} from "../services/trip"
+import {insertTrip, showTrip, showTrips, removeTrip, changeTrip, addPassgService} from "../services/trip"
 import { handleHttp } from "../utils/error.handle"
 import { Response, Request, response } from "express"
 
@@ -34,9 +34,11 @@ const postTrip = async ({body}:  Request, res: Response) => {
 }
 
 
-const updateTrip = async ({params, body}: Request, res: Response) => {
+const updateTrip = async (req: Request, res: Response) => {
+    console.log("aqui llego")
     try {
-        const {id} = params;
+        const id = req.params.id;
+        const body = req.body;
         const response = await changeTrip(id, body)
         res.send(response)
     } catch(e) {
@@ -55,4 +57,18 @@ const deleteTrip = async ({params}: Request, res: Response) => {
     }
 }
 
-export {getTrip, getTrips, postTrip, updateTrip, deleteTrip}
+
+
+const addPassg = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const body = req.body;
+        const response = await addPassgService(id, body)
+        res.send(response)
+    } catch(e) {
+        handleHttp(res, 'ERROR_UPDATE_TRIP')
+    }
+}
+
+
+export {getTrip, getTrips, postTrip, updateTrip, deleteTrip, addPassg}
