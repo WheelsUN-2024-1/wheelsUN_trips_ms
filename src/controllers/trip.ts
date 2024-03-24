@@ -35,7 +35,6 @@ const postTrip = async ({body}:  Request, res: Response) => {
 
 
 const updateTrip = async (req: Request, res: Response) => {
-    console.log("aqui llego")
     try {
         const id = req.params.id;
         const body = req.body;

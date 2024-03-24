@@ -7,7 +7,7 @@ const router = Router();
 router.post('/', postTrip)
 router.get('/', getTrips)
 router.get('/:id', getTrip)
-router.put('/:id', updateTrip)
+router.patch('/:id', updateTrip)
 router.patch('/add/:id', addPassg)
 router.patch('/remove/:id', removePassg)
 router.delete("/:id", deleteTrip)
