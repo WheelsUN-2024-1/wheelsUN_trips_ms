@@ -2,7 +2,6 @@ export interface Trip {
     route: any
     startingPoint: string
     endingPoint: string
-    driverId: number
     price: number
     vehicleId: number
     transactionIds: number[]

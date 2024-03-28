@@ -59,7 +59,9 @@ const removeTrip = async (id:string) => {
 
 
 const changeTrip = async(id:string, data:Trip) => {
-    const responseTrip = await TripModel.updateOne({_id:id},{$set: data})
+    const responseTrip = await TripModel.findOneAndUpdate({_id:id},{$set: data},{
+        new: true
+    })
     return responseTrip
 }
 
@@ -68,11 +70,13 @@ const addPassgService = async(id:string, data:any) => {
     const trip: any  = await TripModel.findById({_id:id});
     trip.route = await fetchDirections(trip.startingPoint, trip.endingPoint, [trip.waypoints, data.waypoint]);
 
-    const responseTrip = await TripModel.updateOne(
+    const responseTrip = await TripModel.findOneAndUpdate(
         {_id:id},
         { 
             $set: { route: trip.route },
             $push: { transactionIds: data.transactionId, waypoints: data.waypoint }
+        },{
+            new: true
         }
         )
     return responseTrip
@@ -99,11 +103,13 @@ const removePassgService = async(id:string, data:any) => {
 
     trip.route = await fetchDirections(trip.startingPoint, trip.endingPoint, trip.waypoints);
 
-    const responseTrip = await TripModel.updateOne(
+    const responseTrip = await TripModel.findOneAndUpdate(
         {_id:id},
         { 
             $pull: { transactionIds: data.transactionId }, // Eliminar el transactionId
             $set: { route: trip.route, waypoints: trip.waypoints } // Actualizar la ruta y los waypoints
+        },{
+            new: true
         }
         )
     return responseTrip
