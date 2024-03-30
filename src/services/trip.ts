@@ -58,7 +58,7 @@ const removeTrip = async (id:string) => {
 }
 
 
-const changeTrip = async(id:string, data:Trip) => {
+const changeTrip = async(id:string, data:any) => {
     const responseTrip = await TripModel.findOneAndUpdate({_id:id},{$set: data},{
         new: true
     })
