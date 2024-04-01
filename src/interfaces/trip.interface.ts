@@ -4,7 +4,7 @@ export interface Trip {
     endingPoint: string
     price: number
     vehicleId: number
-    transactionIds: number[]
+    transactionIds: string[]
     waypoints: string[]
     currentState: 1 | 2 | 3
 };
