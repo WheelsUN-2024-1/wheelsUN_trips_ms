@@ -1,8 +1,10 @@
 import { Router, Response, Request } from "express";
-import { addPassg, deleteTrip, getTrip, getTrips, postTrip, removePassg, updateTrip } from "../controllers/trip";
+import { autoComplete, addPassg, deleteTrip, getTrip, getTrips, postTrip, removePassg, updateTrip } from "../controllers/trip";
 
 const router = Router();
 
+
+router.get('/places/:query', autoComplete)
 
 router.post('/', postTrip)
 router.get('/', getTrips)

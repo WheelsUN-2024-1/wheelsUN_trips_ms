@@ -1,6 +1,17 @@
-import {insertTrip, showTrip, showTrips, removeTrip, changeTrip, addPassgService, removePassgService} from "../services/trip"
+import {placesComplete, insertTrip, showTrip, showTrips, removeTrip, changeTrip, addPassgService, removePassgService} from "../services/trip"
 import { handleHttp } from "../utils/error.handle"
 import { Response, Request, response } from "express"
+
+
+const autoComplete = async({params}: Request, res: Response )  => {
+    try{
+        const {query} = params;
+        const response = await placesComplete(query);
+        res.send(response);
+    } catch(e) {
+        handleHttp(res, 'ERROR AUTOCOMPLETE')
+    }
+ }
 
 const getTrip = async ({params}: Request, res: Response) => {
     try {
@@ -82,4 +93,4 @@ const removePassg = async (req: Request, res: Response) => {
 }
 
 
-export {getTrip, getTrips, postTrip, updateTrip, deleteTrip, addPassg, removePassg}
+export {getTrip, getTrips, postTrip, updateTrip, deleteTrip, addPassg, removePassg, autoComplete}

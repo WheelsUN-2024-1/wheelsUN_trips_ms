@@ -115,4 +115,29 @@ const removePassgService = async(id:string, data:any) => {
     return responseTrip
 }
 
-export {insertTrip, showTrips, showTrip, removeTrip, changeTrip, addPassgService, removePassgService}
+
+const placesComplete = async (query: string) => {
+    try {
+
+        const location = '4.63777,-74.084'
+        const encodedLocation = encodeURIComponent(location);
+        console.log(encodedLocation)
+        const params =  {
+            key: process.env.GOOGLE_API_KEY,
+            input: query,
+            location: '4.63777%2C-74.084',
+            radius: 30000,
+            region: 'co'
+        }
+
+        const response = await axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json', {
+            params: params          
+        });
+
+        return response.data
+    } catch (error) {
+        console.error('Error autocompletado:', error);
+    }
+    
+}
+export {placesComplete, insertTrip, showTrips, showTrip, removeTrip, changeTrip, addPassgService, removePassgService}
