@@ -121,7 +121,6 @@ const placesComplete = async (query: string) => {
 
         const location = '4.63777,-74.084'
         const encodedLocation = encodeURIComponent(location);
-        console.log(encodedLocation)
         const params =  {
             key: process.env.GOOGLE_API_KEY,
             input: query,

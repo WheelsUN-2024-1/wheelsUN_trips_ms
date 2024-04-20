@@ -7,7 +7,7 @@ const TripSchema = new Schema<Trip>(
         startingPoint: { type: String, required: true },
         endingPoint: { type: String, required: true },
         price: {type: Number, required: true},
-        vehicleId: {type: Number, required: true},
+        vehicleId: {type: String, required: true},
         transactionIds: { type: [String], required: false },
         waypoints: { type: [String], required: false },
         currentState: {

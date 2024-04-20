@@ -3,7 +3,7 @@ export interface Trip {
     startingPoint: string
     endingPoint: string
     price: number
-    vehicleId: number
+    vehicleId: string
     transactionIds: string[]
     waypoints: string[]
     currentState: 1 | 2 | 3
