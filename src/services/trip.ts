@@ -139,4 +139,25 @@ const placesComplete = async (query: string) => {
     }
     
 }
-export {placesComplete, insertTrip, showTrips, showTrip, removeTrip, changeTrip, addPassgService, removePassgService}
+
+
+const Coordinates = async (placeId: string) => {
+    try {
+
+        const params =  {
+            key: process.env.GOOGLE_API_KEY,
+            place_id: placeId
+        }
+
+        const response = await axios.get('https://maps.googleapis.com/maps/api/place/details/json', {
+            params: params          
+        });
+        return response.data.result.geometry.location
+    } catch (error) {
+        console.error('Error autocompletado:', error);
+    }
+    
+}
+
+
+export {Coordinates, placesComplete, insertTrip, showTrips, showTrip, removeTrip, changeTrip, addPassgService, removePassgService}

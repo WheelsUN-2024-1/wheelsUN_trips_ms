@@ -1,10 +1,13 @@
 import { Router, Response, Request } from "express";
-import { autoComplete, addPassg, deleteTrip, getTrip, getTrips, postTrip, removePassg, updateTrip } from "../controllers/trip";
+import { getCoordinates,autoComplete, addPassg, deleteTrip, getTrip, getTrips, postTrip, removePassg, updateTrip } from "../controllers/trip";
+
+
 
 const router = Router();
 
 
 router.get('/places/:query', autoComplete)
+router.get('/coord/:id', getCoordinates)
 
 router.post('/', postTrip)
 router.get('/', getTrips)

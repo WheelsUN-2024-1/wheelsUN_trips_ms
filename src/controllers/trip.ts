@@ -1,7 +1,17 @@
-import {placesComplete, insertTrip, showTrip, showTrips, removeTrip, changeTrip, addPassgService, removePassgService} from "../services/trip"
+import { Coordinates ,placesComplete, insertTrip, showTrip, showTrips, removeTrip, changeTrip, addPassgService, removePassgService} from "../services/trip"
 import { handleHttp } from "../utils/error.handle"
 import { Response, Request, response } from "express"
 
+
+const getCoordinates = async({params}: Request, res: Response )  => {
+    try{
+        const {id} = params;
+        const response = await Coordinates(id);
+        res.send(response);
+    } catch(e) {
+        handleHttp(res, 'ERROR AUTOCOMPLETE')
+    }
+ }
 
 const autoComplete = async({params}: Request, res: Response )  => {
     try{
@@ -93,4 +103,4 @@ const removePassg = async (req: Request, res: Response) => {
 }
 
 
-export {getTrip, getTrips, postTrip, updateTrip, deleteTrip, addPassg, removePassg, autoComplete}
+export {getCoordinates, getTrip, getTrips, postTrip, updateTrip, deleteTrip, addPassg, removePassg, autoComplete}
